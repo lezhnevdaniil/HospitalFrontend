@@ -1,0 +1,95 @@
+.authorization {
+  width: 100vw;
+  height: 88.5vh;  
+  justify-content: center;
+  display: flex;
+  align-items: center;
+
+  .main {
+    width: 80vw;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    .div-right {
+      width: 400.5px;
+      height: 453px;
+      background: white;
+
+      form {
+        padding: 20px 40px 20px 40px;        
+        width: auto;
+        height: 413px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    
+        h1 {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 300;
+          font-size: 36px;
+          line-height: 42px;
+        }
+
+        label {
+          margin-bottom: 8px;
+          width: 100%;
+        }
+
+        input {
+          font-family: 'Roboto';
+          font-style: normal;
+          font-weight: 300;
+          font-size: 18px;
+          line-height: 21px;
+          width: 100%;          
+          height: 40px;
+          left: 575px;
+          top: 309px;
+          margin-bottom: 18px;
+          background: #FFFFFF;
+          border: 1px solid rgba(0, 0, 0, 0.2);
+          box-sizing: border-box;
+          border-radius: 4px;
+        }
+
+        .button {
+          width: 100%;
+          display: flex;
+          justify-content: flex-end;
+
+          button {
+            margin-top: 28px;
+            width: 149px;
+            height: 40px;
+            left: 702px;
+            top: 518px;
+            background: #FFFFFF;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            border-radius: 4px;
+            font-family: 'Roboto';
+            font-style: normal;
+            font-weight: 300;
+            font-size: 18px;
+            line-height: 21px;
+            transition: 0.8s;
+          }
+        }
+
+        button:hover {
+          background-color: rgb(163, 185, 199);
+          transition: 0.8s;
+        }
+
+        a {
+          width: 100%;
+          text-align: end;
+          text-decoration: none;
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+}

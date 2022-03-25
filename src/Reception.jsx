@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from './index';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -20,13 +21,15 @@ const Reception = () => {
   const [idChange, setIdChange] = useState('');
   const [itemApp, setItemApp] = useState('');
   const [dateFrom, setDateFrom] = useState('');
-  const [dateBy, setDateBy] = useState('');  
+  const [dateBy, setDateBy] = useState('');
   const [nameChange, setNameChange] = useState('');
   const [doctorChange, setDoctorChange] = useState('');
   const [dateChange, setDateChange] = useState('');
-  const [complaintsChange, setComplaintsChange] = useState('itemApp.complaints');
+  const [complaintsChange, setComplaintsChange] =
+    useState('itemApp.complaints');
+  const { store } = useContext(Context);
 
-  const url = 'http://localhost:8000';
+  const url = 'http://localhost:7000';
 
   const deleteFunction = async (id) => {
     await axios.delete(`${url}/deleteAppoint?_id=${id}`).then((res) => {
@@ -39,7 +42,7 @@ const Reception = () => {
   };
 
   useEffect(async () => {
-    await axios.get(`${url}/allAppoints`).then((res) => {
+    await axios.get(`${url}/allAppoints?user_id=${localStorage.getItem('user_id')}`).then((res) => {
       setAllAppoint(res.data);
     });
   }, []);
@@ -54,6 +57,7 @@ const Reception = () => {
     if (name && doctor && date && complaints) {
       const reception = [...allAppoint];
       const newRec = {
+        user_id: localStorage.getItem('user_id'),
         name: name,
         doctor: doctor,
         date: date,
@@ -108,31 +112,39 @@ const Reception = () => {
     if (activeFilter) {
       if (dateBy && dateFrom) {
         arr = _.filter(filteredArray, (item) =>
-          moment(item.date).isBetween(dateFrom, dateBy, "date", "[]")
+          moment(item.date).isBetween(dateFrom, dateBy, 'date', '[]')
         );
       } else if (dateFrom) {
-        arr = _.filter(filteredArray, (item) => moment(item.date).isAfter(dateFrom));
+        arr = _.filter(filteredArray, (item) =>
+          moment(item.date).isAfter(dateFrom)
+        );
       } else if (dateBy) {
-        arr = _.filter(filteredArray, (item) => moment(item.date).isBefore(dateBy));
+        arr = _.filter(filteredArray, (item) =>
+          moment(item.date).isBefore(dateBy)
+        );
       }
       return arr;
     } else {
       arr = sortingReception;
     }
-    return arr;  
-  }
+    return arr;
+  };
 
-  const filterDelete = async() => {
+  const filterDelete = async () => {
     await axios.get(`${url}/allAppoints`).then((res) => {
       setAllAppoint(res.data);
     });
-  }
+  };
 
   return (
     <>
       <Header>
         <h1>Приемы</h1>
-        <Link to='/authorization'><button className='buttonEnd'>Выход</button></Link>
+        <Link to='/authorization'>
+          <button onClick={() => store.logout()} className='buttonEnd'>
+            Выход
+          </button>
+        </Link>
       </Header>
       <form onSubmit={appointment}>
         <div className='info'>
@@ -220,27 +232,33 @@ const Reception = () => {
           <div className='filterBottom'>
             <div className='settingFilter'>
               <p>с:</p>
-              <input onChange={(e) => {
-                setDateFrom(e.target.value);
-              }} 
-              type={'date'}></input>
+              <input
+                onChange={(e) => {
+                  setDateFrom(e.target.value);
+                }}
+                type={'date'}
+              ></input>
             </div>
             <div className='settingFilter'>
               <p>по:</p>
-              <input onChange={(e) => {
-                setDateBy(e.target.value);
-              }} 
-              type={'date'}></input>
+              <input
+                onChange={(e) => {
+                  setDateBy(e.target.value);
+                }}
+                type={'date'}
+              ></input>
             </div>
-            <button onClick={(e) => {
+            <button
+              onClick={(e) => {
                 setAllAppoint(filterFunction(e));
               }}
-              >Фильтровать
+            >
+              Фильтровать
             </button>
             <svg
               onClick={() => {
                 setActiveFilter(false);
-                filterDelete(allAppoint)
+                filterDelete(allAppoint);
               }}
               width='24'
               height='30'
@@ -273,62 +291,59 @@ const Reception = () => {
             <tbody>
               {allAppoint.map((item, index) => (
                 <>
-                {
-                  <Table
-                    url={url}
-                    key={item._id}
-                    item={item}
-                    setAllAppoint={setAllAppoint}
-                    setIdDelete={setIdDelete}
-                    setActiveChange={setActiveChange}
-                    setActiveDelete={setActiveDelete}
-                    activeChange={activeChange}
-                    idChange={idChange}
-                    setIdChange={setIdChange}
-                    itemApp={itemApp} 
-                    setItemApp={setItemApp}
-                    setNameChange={setNameChange}
-                    setDoctorChange={setDoctorChange}
-                    setDateChange={setDateChange}
-                    setComplaintsChange={setComplaintsChange}
-                  />
-                }
+                  {
+                    <Table
+                      url={url}
+                      key={item._id}
+                      item={item}
+                      setAllAppoint={setAllAppoint}
+                      setIdDelete={setIdDelete}
+                      setActiveChange={setActiveChange}
+                      setActiveDelete={setActiveDelete}
+                      activeChange={activeChange}
+                      idChange={idChange}
+                      setIdChange={setIdChange}
+                      itemApp={itemApp}
+                      setItemApp={setItemApp}
+                      setNameChange={setNameChange}
+                      setDoctorChange={setDoctorChange}
+                      setDateChange={setDateChange}
+                      setComplaintsChange={setComplaintsChange}
+                    />
+                  }
                 </>
-
               ))}
-              
             </tbody>
           </table>
         </div>
       </div>
       {
-                    <ModalDelete
-                      idDelete={idDelete}
-                      deleteFunction={deleteFunction}
-                      setActiveDelete={setActiveDelete}
-                      activeDelete={activeDelete}
-                      activeChange={activeChange}
-                    />
-                  }
-                  {
-                    <ModalChange
-                      setActiveChange={setActiveChange}
-                      activeChange={activeChange}
-                      setAllAppoint={setAllAppoint}
-                      url={url}
-                      setIdChange={setIdChange}
-                      idChange={idChange}
-                      nameChange={nameChange}
-                      setNameChange={setNameChange}
-                      doctorChange={doctorChange}
-                      setDoctorChange={setDoctorChange}
-                      dateChange={dateChange}
-                      setDateChange={setDateChange}
-                      complaintsChange={complaintsChange}
-                      setComplaintsChange={setComplaintsChange}
-                    >
-                  </ModalChange>
-                  }
+        <ModalDelete
+          idDelete={idDelete}
+          deleteFunction={deleteFunction}
+          setActiveDelete={setActiveDelete}
+          activeDelete={activeDelete}
+          activeChange={activeChange}
+        />
+      }
+      {
+        <ModalChange
+          setActiveChange={setActiveChange}
+          activeChange={activeChange}
+          setAllAppoint={setAllAppoint}
+          url={url}
+          setIdChange={setIdChange}
+          idChange={idChange}
+          nameChange={nameChange}
+          setNameChange={setNameChange}
+          doctorChange={doctorChange}
+          setDoctorChange={setDoctorChange}
+          dateChange={dateChange}
+          setDateChange={setDateChange}
+          complaintsChange={complaintsChange}
+          setComplaintsChange={setComplaintsChange}
+        ></ModalChange>
+      }
     </>
   );
 };

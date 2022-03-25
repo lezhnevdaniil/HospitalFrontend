@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import './Table.scss';
 
@@ -10,13 +11,14 @@ const Table = ({
   setNameChange,
   setDoctorChange,
   setDateChange,
-  setComplaintsChange
+  setComplaintsChange,
 }) => {
+  console.log(item);
   return (
     <tr>
       <td>{item.name}</td>
       <td>{item.doctor}</td>
-      <td>{item.date.slice(0, 10).split('-').reverse().join('.')}</td>
+      <td>{moment(item.date).format('DD.MM.YYYY')}</td>
       <td>{item.complaints}</td>
       <td>
         <div className='icon'>

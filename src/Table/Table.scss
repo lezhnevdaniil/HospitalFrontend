@@ -1,30 +1,30 @@
 table {
-	width: 100%;
-	margin-bottom: 20px;
+  width: 100%;
+  margin-bottom: 20px;
   border-collapse: collapse;
   border-spacing: 0;
 
   tbody {
-    border: 1px solid;
-  } 
+    border: 0.04vw solid;
+  }
 
-  thead, th {
+  thead,
+  th {
     font-weight: bold;
     text-align: left;
-    padding: 10px 15px;
+    padding: 0.6vw 0.8vw;
     background: #d8d8d8;
-    font-size: 14px;
     text-align: center;
-    font-size: 18px;  
+    font-size: 1.08em;
   }
-  tbody, td {
+  tbody,
+  td {
     text-align: center;
     border-left: 1px solid black;
-    padding: 10px 15px;
-    font-size: 14px;
+    padding: 0.6vw 0.8vw;
     vertical-align: top;
     background-color: white;
-    font-size: 18px;
+    font-size: 1.08em;
 
     .icon {
       display: flex;

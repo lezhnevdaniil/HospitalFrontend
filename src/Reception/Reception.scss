@@ -1,23 +1,20 @@
 .buttonEnd {
-  width: 156px;
-  height: 45px;
-  left: 793px;
-  top: 36px;
+  width: 9vw;
+  height: 4.6vh;
   background: #FFFFFF;
   border: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
-  border-radius: 4px;
+  border-radius: 0.3vw;
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 300;
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 1.5em;
 }
 
 .info {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 1vh;
   width: 100vw;
   height: 12vh;
   background: #C5E9FF;
@@ -32,18 +29,15 @@
 
     input, select {
       width: 15vw;
-      height: 45px;
-      left: 23px;
-      top: 180px;
+      height: 4vh;
       background: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
-      border-radius: 4px;
+      border-radius: 0.3vw;
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 300;
-      font-size: 18px;
-      line-height: 21px;
+      font-size: 1.1em;
     }
 
     .label {
@@ -52,28 +46,24 @@
       align-items: flex-start;
 
       label {
-        margin-bottom: 8px;
+        margin-bottom: 0.8vh;
       }
     }
 
     .buttonAdd {
       display: flex;
-      // align-items: flex-end;
 
       button {
-        width: 131px;
-        height: 45px;
-        left: 835px;
-        top: 180px;
+        width: 7vw;
+        height: 4.5vh;
         background: #FFFFFF;
         border: 1px solid rgba(0, 0, 0, 0.2);
         box-sizing: border-box;
-        border-radius: 4px;
+        border-radius: 0.3vw;
         font-family: 'Roboto';
         font-style: normal;
         font-weight: 300;
-        font-size: 18px;
-        line-height: 21px;
+        font-size: 1.1em;
       }
     }
   }
@@ -92,7 +82,7 @@
 }
 
 .filter {
-  margin-top: 38px;
+  margin-top: 3.9vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -103,29 +93,26 @@
     justify-content: end;
     width: 90vw;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 3vh;
 
     p {
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 300;
-      font-size: 18px;
-      line-height: 21px;
-      margin-right: 18px;
-      margin-left: 24px;
+      font-size: 1.1em;
+      margin-right: 1vw;
+      margin-left: 2vw;
     }
 
     select {
-      width: 200px;
-      height: 47px;
-      left: 766px;
-      top: 287px;
+      width: 11vw;
+      height: 4.5vh;
       background: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
-      border-radius: 4px;
+      border-radius: 0.3vw;
       font-family: 'Roboto';
-      font-size: 18px;
+      font-size: 1.1em;
     }
   }
   
@@ -134,43 +121,38 @@
     display: flex;
     justify-content: space-evenly;    
     align-items: center;
-    margin-bottom: 35px;
+    margin-bottom: 3.7vh;
 
     .settingFilter {
       display: flex;
       align-items: center;
       
       input {
-        width: 238px;
-        height: 40px;
-        left: 56px;
-        top: 357px;
+        width: 13vw;
+        height: 4vh;
         background: #FFFFFF;
         border: 1px solid rgba(0, 0, 0, 0.2);
         box-sizing: border-box;
-        border-radius: 4px;
+        border-radius: 0.3vw;
       }
       
       p {
-        margin-right: 8px;
-        font-size: 18px;
+        margin-right: 0.8vw;
+        font-size: 1.1em;
       }
     }
 
     button {
-      width: 208px;
-      height: 40px;
-      left: 633px;
-      top: 354px;
+      width: 11vw;
+      height: 4.3vh;
       background: #FFFFFF;
       border: 1px solid rgba(0, 0, 0, 0.2);
       box-sizing: border-box;
-      border-radius: 4px;
+      border-radius: 0.3vw;
       font-family: 'Roboto';
       font-style: normal;
       font-weight: 300;
-      font-size: 18px;
-      line-height: 21px;
+      font-size: 1.1em;
     }
   }
 }

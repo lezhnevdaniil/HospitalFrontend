@@ -8,6 +8,7 @@ export default class Store {
   isAuth = false;
   isLoading = false;
   isReg = false;
+  isErrors = '';
 
   constructor() {
     makeAutoObservable(this);
@@ -15,6 +16,10 @@ export default class Store {
 
   setAuth(bool) {
     this.isAuth = bool;
+  }
+
+  setErrors(error) {
+    this.isErrors = error;
   }
 
   setUser(user) {
@@ -34,30 +39,29 @@ export default class Store {
   async login(login, password) {
     try {
       const response = await AuthServise.login(login, password);
-      console.log('1488', response.data)
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('login', login);
-      
+
       this.setAuth(true);
       this.setUser(response.data.user);
+      this.setErrors(false);
     } catch (e) {
-      console.log(e.response?.data?.message);
+      this.setErrors('Такого пользователя не существует');
     }
   }
 
   async registration(login, password) {
     try {
-      
       const response = await AuthServise.registration(login, password);
-      console.log('1111', response.data)
       localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('token', response.data.accessToken);
       localStorage.setItem('login', login);
       this.setAuth(true);
       this.setUser(response.data.user);
+      this.setErrors(false);
     } catch (e) {
-      alert(`Пользователь с таким логином уже существует ${login}`);
+      this.setErrors('Пользователь с таким логином уже существует');
     }
   }
 
@@ -83,10 +87,8 @@ export default class Store {
       localStorage.setItem('token', response.data.accessToken);
       this.setAuth(true);
       this.setUser(response.data.user);
-      console.log(' sddsdsdsd', this.isAuth);
     } catch (e) {
       console.log(e);
-      console.log(' sddsdsdsd', this.isAuth);
     } finally {
       this.setLoading(false);
     }

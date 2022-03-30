@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Context } from './index';
+import { Context } from '../index';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import Header from './Header';
-import Table from './Table';
-import ModalDelete from './ModalDelete';
-import './Reception.scss';
-import ModalChange from './ModalChange';
 import _ from 'lodash';
+import Snackbar from '@mui/material/Snackbar';
+import Header from '../Header/Header';
+import Table from '../Table/Table';
+import Doctors from '../Doctors/Doctors';
+import ModalChange from '../ModalChange/ModalChange';
+import ModalDelete from '../ModalDelete/ModalDelete';
+import logoFilter from '../logo/logoFilter.svg';
+import logoFilterDelete from '../logo/logoFilterDelete.svg';
+import './Reception.scss';
 
 const Reception = () => {
   const [allAppoint, setAllAppoint] = useState([]);
@@ -22,14 +26,21 @@ const Reception = () => {
   const [itemApp, setItemApp] = useState('');
   const [dateFrom, setDateFrom] = useState('');
   const [dateBy, setDateBy] = useState('');
-  const [nameChange, setNameChange] = useState('');
-  const [doctorChange, setDoctorChange] = useState('');
-  const [dateChange, setDateChange] = useState('');
-  const [complaintsChange, setComplaintsChange] =
-    useState('itemApp.complaints');
+  const [allChange, setAllChange] = useState({
+    name: '',
+    doctor: '',
+    date: '',
+    complaints: '',
+  });
+  const [sortName, setSortName] = useState('');
   const { store } = useContext(Context);
+  const [open, setOpen] = useState(false);
 
-  const url = 'http://localhost:7000';
+  const url = 'http://localhost:8000';
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const deleteFunction = async (id) => {
     await axios.delete(`${url}/deleteAppoint?_id=${id}`).then((res) => {
@@ -42,9 +53,11 @@ const Reception = () => {
   };
 
   useEffect(async () => {
-    await axios.get(`${url}/allAppoints?user_id=${localStorage.getItem('user_id')}`).then((res) => {
-      setAllAppoint(res.data);
-    });
+    await axios
+      .get(`${url}/allAppoints?user_id=${localStorage.getItem('user_id')}`)
+      .then((res) => {
+        setAllAppoint(res.data);
+      });
   }, []);
 
   const appointment = async (e) => {
@@ -69,34 +82,36 @@ const Reception = () => {
         setAllAppoint(reception);
       });
       e.target.reset();
-    } else alert('Введите все поля');
+    } else {
+      setOpen(true);
+    }
   };
 
   const sortingReception = (e) => {
     allAppoint.sort((a, b) => {
       if (e === 'ФИО') {
         if (direction === 'По возрастанию') {
-          if (a.name === b.name) return 0;
-          return a.name > b.name ? 1 : -1;
+          if (a[sortName] === b[sortName]) return 0;
+          return a[sortName] > b[sortName] ? 1 : -1;
         } else {
-          if (a.name === b.name) return 0;
-          return a.name < b.name ? 1 : -1;
+          if (a[sortName] === b[sortName]) return 0;
+          return a[sortName] < b[sortName] ? 1 : -1;
         }
       } else if (e === 'ВРАЧ') {
         if (direction === 'По возрастанию') {
-          if (a.doctor === b.doctor) return 0;
-          return a.doctor > b.doctor ? 1 : -1;
+          if (a[sortName] === b[sortName]) return 0;
+          return a[sortName] > b[sortName] ? 1 : -1;
         } else {
-          if (a.doctor === b.doctor) return 0;
-          return a.doctor < b.doctor ? 1 : -1;
+          if (a[sortName] === b[sortName]) return 0;
+          return a[sortName] < b[sortName] ? 1 : -1;
         }
       } else {
         if (direction === 'По возрастанию') {
-          if (a.date === b.date) return 0;
-          return a.date > b.date ? 1 : -1;
+          if (a[sortName] === b[sortName]) return 0;
+          return a[sortName] > b[sortName] ? 1 : -1;
         } else {
-          if (a.date === b.date) return 0;
-          return a.date < b.date ? 1 : -1;
+          if (a[sortName] === b[sortName]) return 0;
+          return a[sortName] < b[sortName] ? 1 : -1;
         }
       }
     });
@@ -131,9 +146,11 @@ const Reception = () => {
   };
 
   const filterDelete = async () => {
-    await axios.get(`${url}/allAppoints`).then((res) => {
-      setAllAppoint(res.data);
-    });
+    await axios
+      .get(`${url}/allAppoints?user_id=${localStorage.getItem('user_id')}`)
+      .then((res) => {
+        setAllAppoint(res.data);
+      });
   };
 
   return (
@@ -146,6 +163,11 @@ const Reception = () => {
           </button>
         </Link>
       </Header>
+      <Snackbar
+        open={open}
+        onClose={handleClose}
+        message='Заполните все поля'
+      />
       <form onSubmit={appointment}>
         <div className='info'>
           <div className='main-div'>
@@ -156,8 +178,7 @@ const Reception = () => {
             <div className='label'>
               <label>Врач:</label>
               <select name='doctor'>
-                <option>1</option>
-                <option>2</option>
+                <Doctors />
               </select>
             </div>
             <div className='label'>
@@ -181,12 +202,13 @@ const Reception = () => {
             onChange={(e) => {
               setSortCheck(e.target.value);
               sortingReception(e.target.value);
+              setSortName(e.target.value);
             }}
           >
             <option></option>
-            <option>ФИО</option>
-            <option>ВРАЧ</option>
-            <option>ДАТА</option>
+            <option value={'name'}>ФИО</option>
+            <option value={'doctor'}>ВРАЧ</option>
+            <option value={'date'}>ДАТА</option>
           </select>
           {sortCheck ? (
             <>
@@ -207,22 +229,13 @@ const Reception = () => {
           {!activeFilter ? (
             <>
               <p>Добавить фильтр по дате</p>
-              <svg
+              <img
+                src={logoFilter}
+                alt='Упс'
                 onClick={() => {
                   setActiveFilter(true);
                 }}
-                width='30'
-                height='30'
-                viewBox='0 0 30 30'
-                fill='none'
-                xmlns='http://www.w3.org/2000/svg'
-              >
-                <path
-                  d='M26.6667 0H3.33333C1.48333 0 0 1.5 0 3.33333V26.6667C0 28.5 1.48333 30 3.33333 30H26.6667C28.5 30 30 28.5 30 26.6667V3.33333C30 1.5 28.5 0 26.6667 0ZM23.3333 16.6667H16.6667V23.3333H13.3333V16.6667H6.66667V13.3333H13.3333V6.66667H16.6667V13.3333H23.3333V16.6667Z'
-                  fill='black'
-                  fill-opacity='0.8'
-                />
-              </svg>
+              ></img>
             </>
           ) : (
             ''
@@ -255,22 +268,14 @@ const Reception = () => {
             >
               Фильтровать
             </button>
-            <svg
+            <img
+              src={logoFilterDelete}
+              alt='Упс'
               onClick={() => {
                 setActiveFilter(false);
                 filterDelete(allAppoint);
               }}
-              width='24'
-              height='30'
-              viewBox='0 0 24 30'
-              fill='none'
-              xmlns='http://www.w3.org/2000/svg'
-            >
-              <path
-                d='M2.00004 26.6667C2.00004 28.5 3.50004 30 5.33337 30H18.6667C20.5 30 22 28.5 22 26.6667V6.66667H2.00004V26.6667ZM5.33337 10H18.6667V26.6667H5.33337V10ZM17.8334 1.66667L16.1667 0H7.83337L6.16671 1.66667H0.333374V5H23.6667V1.66667H17.8334Z'
-                fill='black'
-              />
-            </svg>
+            ></img>
           </div>
         ) : (
           ''
@@ -305,10 +310,8 @@ const Reception = () => {
                       setIdChange={setIdChange}
                       itemApp={itemApp}
                       setItemApp={setItemApp}
-                      setNameChange={setNameChange}
-                      setDoctorChange={setDoctorChange}
-                      setDateChange={setDateChange}
-                      setComplaintsChange={setComplaintsChange}
+                      allChange={allChange}
+                      setAllChange={setAllChange}
                     />
                   }
                 </>
@@ -334,14 +337,8 @@ const Reception = () => {
           url={url}
           setIdChange={setIdChange}
           idChange={idChange}
-          nameChange={nameChange}
-          setNameChange={setNameChange}
-          doctorChange={doctorChange}
-          setDoctorChange={setDoctorChange}
-          dateChange={dateChange}
-          setDateChange={setDateChange}
-          complaintsChange={complaintsChange}
-          setComplaintsChange={setComplaintsChange}
+          allChange={allChange}
+          setAllChange={setAllChange}
         ></ModalChange>
       }
     </>

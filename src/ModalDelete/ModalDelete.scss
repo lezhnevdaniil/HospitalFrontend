@@ -20,15 +20,15 @@
 }
 
 .modalContent {
-  width: 642px;
-  height: 280px;
+  width: 40vw;
+  height: 29vh;
   left: 0;
   top: 0;
   background-color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 3px;
+  border-radius: 0.2vw;
   transform: scale(0.5);
   transition: 0.2s all;
   overflow: hidden;
@@ -38,51 +38,33 @@
   transform: scale(1);
 }
 
-.edit-text {
-  border-radius: 8px;
-  margin: 10px 15px;
-  padding: 7px;
-  font-size: 20px;
-}
-
 .information {
-  width: 642px;
-  height: 90px;
+  width: 40vw;
+  height: 9vh;
   font-size: 18px;
   display: flex;
   align-items: center;
   margin-bottom: 10px;  
   background: #FFFFFF;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-  p {
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 300;
-    font-size: 36px;
-    line-height: 42px;
-    padding-left: 29px;
-  }
 }
 
 .message-div {
-  width: 580px;
-  height: 90px;
+  width: 37vw;
+  height: 10vh;
   display: flex;
   justify-content: flex-start;
 
   p {
-    font-size: 24px;
+    font-size: 1.5em;
   }
 }
 
 .button-div {
   background: #FFFFFF;
   box-shadow: 4px 0px 4px 4px rgba(0, 0, 0, 0.25);  
-  width: 642px;
+  width: 40vw;
   height: 89px;
-  left: 0px;
-  top: 235px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -91,19 +73,19 @@
     background: #FFFFFF;
     border: 2px solid rgba(0, 0, 0, 0.2);
     box-sizing: border-box;
-    border-radius: 4px;
-    width: 146px;
-    height: 40px;
-    margin-right: 12px;
+    border-radius: 0.2vw;
+    width: 8vw;
+    height: 4vh;
+    margin-right: 1vw;
   }
 
   .buttonDelete {
     background: rgba(197, 233, 255, 0.72);
     border: 2px solid rgba(197, 233, 255, 0.72);
     box-sizing: border-box;
-    border-radius: 4px;
-    width: 146px;
-    height: 40px;
-    margin-right: 24px;
+    border-radius: 0.2vw;
+    width: 8vw;
+    height: 4vh;
+    margin-right: 1.7vw;
   }
 }

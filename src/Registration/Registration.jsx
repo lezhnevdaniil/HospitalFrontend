@@ -1,9 +1,10 @@
 import { React, useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Context } from './index';
+import { Context } from '../index';
 import { observer } from 'mobx-react-lite';
-import Header from './Header';
-import logoBody from './logo/logoBody.svg';
+import Snackbar from '@mui/material/Snackbar';
+import Header from '../Header/Header';
+import logoBody from '../logo/logoBody.svg';
 import './Registration.scss';
 
 const Registration = () => {
@@ -12,27 +13,23 @@ const Registration = () => {
   const [passwordDubl, setPasswordDubl] = useState('');
   const [loginChecked, setValidChecked] = useState(true);
   const [passwordChecked, setPasswordChecked] = useState(true);
+  const [errorRegistration, setErrorRegistration] = useState(false);
   const loginValid = /^[0-9A-Za-z]{6,}$/;
   const passwordValid = /^.*(?=.{6,})(?=.*\d)(?=.*[A-Za-z]).*$/;
   const navigate = useNavigate();
   const { store } = useContext(Context);
-  let num = 0;
+
+  const handleClose = () => {
+    setErrorRegistration(false);
+  };
 
   const changeRegistration = (e) => {
     e.preventDefault();
-    if (login) {
-      num++;
+    if (store.isErrors === 'Пользователь с таким логином уже существует') {
+      setErrorRegistration('Пользователь с таким логином уже существует');
+    } else {
+      setErrorRegistration(false);
     }
-    if (password) {
-      num++;
-    }
-    if (passwordDubl) {
-      num++;
-    }
-    if (num < 3) {
-      alert('Заполните все поля');
-    }
-    num = 0;
     loginValid.test(login) ? setValidChecked(true) : setValidChecked(false);
     passwordValid.test(password)
       ? setPasswordChecked(true)
@@ -43,33 +40,15 @@ const Registration = () => {
     }
   };
 
-  // const registrClick = async (req, res) => {
-  //   await axios
-  //     .post('http://localhost:8000/registration', {
-  //       login,
-  //       password,
-  //     })
-  //     .then((result) => {
-  //       localStorage.setItem('token', result.data.token);
-  //       localStorage.setItem('user_id', result.data.user_id);
-  //       // setLogin('');
-  //       // setPassword('');
-  //       // setPasswordDubl('');
-  //       navigate('/reception');
-  //     })
-  //     .catch((e) => {
-  //       // if (e.response.status === 401) {
-  //       //  alert('такой пользователь уже существует');
-  //       // }
-  //       // if (e.response.status === 400) {
-  //       //   alert('введены некорректные данные');
-  //       // }
-  //     });
-  // };
   return (
     <>
       <Header>
         <h1>Зарегистрироваться в системе</h1>
+        <Snackbar
+          open={errorRegistration}
+          onClose={handleClose}
+          message={errorRegistration}
+        />
       </Header>
       <div className='registration'>
         <div className='main'>

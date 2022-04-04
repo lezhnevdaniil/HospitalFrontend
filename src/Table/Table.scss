@@ -1,0 +1,35 @@
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  tbody {
+    border: 0.04vw solid;
+    word-break: break-word;
+  }
+
+  thead,
+  th {
+    font-weight: bold;
+    text-align: left;
+    padding: 0.6vw 0.8vw;
+    background: #d8d8d8;
+    text-align: center;
+    font-size: 1.08em;
+  }
+  tbody,
+  td {
+    text-align: center;
+    border-left: 1px solid black;
+    padding: 0.6vw 0.8vw;
+    vertical-align: top;
+    background-color: white;
+    font-size: 1.08em;
+
+    .icon {
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}

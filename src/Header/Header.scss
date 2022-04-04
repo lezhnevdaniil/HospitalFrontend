@@ -1,0 +1,24 @@
+.header {
+  display: flex;
+  justify-content: space-around;
+  width: 100vw;
+  height: 10.5vh;
+  background: #C5E9FF;
+  box-shadow: 4px 4px 4px 4px rgba(0, 0, 0, 0.25);
+  align-items: center;
+
+  h1 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 2.25em;
+  }
+
+  img {
+    position: absolute;
+    left: 6.16%;
+    right: 7.28%;
+    top: 1.32%;
+    bottom: 8.16%;
+  }
+}

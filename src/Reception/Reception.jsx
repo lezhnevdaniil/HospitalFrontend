@@ -13,6 +13,7 @@ import ModalDelete from '../ModalDelete/ModalDelete';
 import logoFilter from '../logo/logoFilter.svg';
 import logoFilterDelete from '../logo/logoFilterDelete.svg';
 import './Reception.scss';
+import SortOptions from '../SortOptions/SortOptions';
 
 const Reception = () => {
   const [allAppoint, setAllAppoint] = useState([]);
@@ -21,7 +22,7 @@ const Reception = () => {
   const [activeChange, setActiveChange] = useState(false);
   const [idDelete, setIdDelete] = useState('');
   const [sortCheck, setSortCheck] = useState(false);
-  const [direction, setDirection] = useState(false);
+  const [direction, setDirection] = useState('По возрастанию');
   const [idChange, setIdChange] = useState('');
   const [itemApp, setItemApp] = useState('');
   const [dateFrom, setDateFrom] = useState('');
@@ -54,7 +55,7 @@ const Reception = () => {
 
   useEffect(async () => {
     await axios
-      .get(`${url}/allAppoints?user_id=${localStorage.getItem('user_id')}`)
+      .get(`${url}/allAppoints?token=${localStorage.getItem('token')}`)
       .then((res) => {
         setAllAppoint(res.data);
       });
@@ -63,6 +64,7 @@ const Reception = () => {
   const appointment = async (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
+    console.log(data)
     const name = data.get('name');
     const doctor = data.get('doctor');
     const date = data.get('date');
@@ -70,7 +72,7 @@ const Reception = () => {
     if (name && doctor && date && complaints) {
       const reception = [...allAppoint];
       const newRec = {
-        user_id: localStorage.getItem('user_id'),
+        token: localStorage.getItem('token'),
         name: name,
         doctor: doctor,
         date: date,
@@ -147,7 +149,7 @@ const Reception = () => {
 
   const filterDelete = async () => {
     await axios
-      .get(`${url}/allAppoints?user_id=${localStorage.getItem('user_id')}`)
+      .get(`${url}/allAppoints?token=${localStorage.getItem('token')}`)
       .then((res) => {
         setAllAppoint(res.data);
       });
@@ -205,10 +207,8 @@ const Reception = () => {
               setSortName(e.target.value);
             }}
           >
-            <option></option>
-            <option value={'name'}>ФИО</option>
-            <option value={'doctor'}>ВРАЧ</option>
-            <option value={'date'}>ДАТА</option>
+            <option/>
+            <SortOptions />
           </select>
           {sortCheck ? (
             <>

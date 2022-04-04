@@ -1,22 +1,12 @@
 import React from 'react';
 
 const Doctors = () => {
-  const doctors = [
-    {
-      doctor: 'Иванов',
-    },
-    {
-      doctor: 'Петров',
-    },
-    {
-      doctor: 'Сидоров',
-    },
-  ];
+  const doctors = ['Иванов', 'Петров', 'Сидоров'];
 
   return (
     <>
       {doctors.map((element) => {
-        return <option>{element.doctor}</option>;
+        return <option>{element}</option>;
       })}
     </>
   );

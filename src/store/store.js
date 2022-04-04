@@ -39,9 +39,7 @@ export default class Store {
   async login(login, password) {
     try {
       const response = await AuthServise.login(login, password);
-      localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('token', response.data.accessToken);
-      localStorage.setItem('login', login);
 
       this.setAuth(true);
       this.setUser(response.data.user);
@@ -54,9 +52,7 @@ export default class Store {
   async registration(login, password) {
     try {
       const response = await AuthServise.registration(login, password);
-      localStorage.setItem('user_id', response.data.user.id);
       localStorage.setItem('token', response.data.accessToken);
-      localStorage.setItem('login', login);
       this.setAuth(true);
       this.setUser(response.data.user);
       this.setErrors(false);
@@ -70,7 +66,6 @@ export default class Store {
       const response = await AuthServise.logout();
 
       localStorage.removeItem('token');
-      localStorage.removeItem('login');
       this.setAuth(false);
       this.setUser({});
     } catch (e) {

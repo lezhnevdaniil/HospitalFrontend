@@ -16,7 +16,7 @@ const ModalChange = ({
   const patchFunction = async (id) => {
     await axios
       .patch(`${url}/updateAppoint`, {
-        user_id: localStorage.getItem('user_id'),
+        token: localStorage.getItem('token'),
         _id: id,
         name: allChange.name,
         doctor: allChange.doctor,
@@ -28,7 +28,7 @@ const ModalChange = ({
       });
   };
 
-  const buildAppoint1 = (value, type) => {
+  const buildAppoint = (value, type) => {
     const newAppoint = { ...allChange };
     newAppoint[type] = value;
     setAllChange(newAppoint);
@@ -54,14 +54,14 @@ const ModalChange = ({
           <input
             value={allChange.name}
             onChange={(e) => {
-              buildAppoint1(e.target.value, 'name');
+              buildAppoint(e.target.value, 'name');
             }}
           ></input>
           <label>Врач:</label>
           <input
             value={allChange.doctor}
             onChange={(e) => {
-              buildAppoint1(e.target.value, 'doctor');
+              buildAppoint(e.target.value, 'doctor');
             }}
           ></input>
           <label>Дата:</label>
@@ -70,14 +70,14 @@ const ModalChange = ({
             value={moment(allChange.date).format('YYYY-MM-DD')}
             type='date'
             onChange={(e) => {
-              buildAppoint1(e.target.value, 'date');
+              buildAppoint(e.target.value, 'date');
             }}
           ></input>
           <label>Жалобы:</label>
           <textarea
             value={allChange.complaints}
             onChange={(e) => {
-              buildAppoint1(e.target.value, 'complaints');
+              buildAppoint(e.target.value, 'complaints');
             }}
           ></textarea>
         </div>
